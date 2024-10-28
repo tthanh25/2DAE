@@ -28,4 +28,4 @@ def pgd(img, i):
         clip_max=1.0
     )
 
-    return adv_image[0]  # Return the adversarial image
+    return img  # Return the adversarial image
