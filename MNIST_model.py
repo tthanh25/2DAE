@@ -3,11 +3,11 @@ import numpy as np
 
 import keras
 from keras.utils import to_categorical
-from tensorflow.keras.models import Sequential  # Updated import
-from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Activation  # Updated import
-from tensorflow.keras.preprocessing.image import ImageDataGenerator  # Updated import
-from tensorflow.keras.callbacks import LearningRateScheduler  # Updated import
-from tensorflow.keras.optimizers import SGD  # Updated import
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Activation, Input
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.callbacks import LearningRateScheduler
+from tensorflow.keras.optimizers import SGD
 
 import tensorflow as tf
 
@@ -25,9 +25,10 @@ x_test = x_test / 255.0
 x_train = np.reshape(x_train, (-1, 28, 28, 1))
 x_test = np.reshape(x_test, (-1, 28, 28, 1))
 
+# Use Input shape for the first layer
 model = Sequential()
-
-model.add(Conv2D(32, (3, 3), input_shape=(28, 28, 1)))
+model.add(Input(shape=(28, 28, 1)))  # Added Input layer
+model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
 model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
@@ -47,7 +48,8 @@ model.add(Dense(256))
 model.add(Activation('relu'))
 model.add(Dense(10, activation='softmax'))
 
-sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+# Updated optimizer initialization
+sgd = SGD(learning_rate=0.01, momentum=0.9, nesterov=True)  # Updated argument
 model.compile(optimizer=sgd,
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
