@@ -14,7 +14,7 @@ def pgd(img, i):
     
     # Preprocess the image
     img = (np.asarray(img) / 255.0).astype(np.float32)
-    img = np.reshape(img, (28, 28, 3))
+    img = np.reshape(img, (1, 28, 28, 1))
 
     # Generate adversarial example using projected gradient descent
     adv_image = projected_gradient_descent(
@@ -27,5 +27,5 @@ def pgd(img, i):
         clip_min=0.0,
         clip_max=1.0
     )
-
+    adv_image = np.reshape(adv_image, (28, 28, 1))
     return img  # Return the adversarial image

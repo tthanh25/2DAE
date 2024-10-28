@@ -59,6 +59,15 @@ for i in range(10000):
     adv = pgd(clean, i)
     print("adv pgd:")
     print(adv)
+    plt.figure(figsize=(12, 6))
+    plt.subplot(1, 3, 1)
+    plt.title('ANH NHIEUUUUUUUUUUUUUU')
+    plt.axis('off')
+    plt.imshow(adv)
+    plt.subplot(1, 3, 1)
+    plt.title('ANH GOCCCCCCCCCCCC')
+    plt.axis('off')
+    plt.imshow(clean)
     t = extract_parameters(model, clean, adv)
 
     if t:
