@@ -32,17 +32,12 @@ def extract_parameters_color(model, clean_img, adv_img):
 def extract_parameters(model, clean_img, adv_img):
     SSIM = 0
     t = []
-    # Ensure clean_img and adv_img are in the correct shape and normalized
+
     clean = np.array(clean_img) / 255.0  # Normalize clean image
     adv = np.array(adv_img) / 255.0  # Normalize adversarial image
     c = np.reshape(clean_img, (1, 28, 28, 1))
-    # Reshape clean_img to match the expected input shape
-    clean = np.reshape(clean_img, (28, 28, 1))  # Assuming clean_img is grayscale
-    clean = np.repeat(clean, 3, axis=2)  # Convert to RGB by repeating channels
-    adv = np.reshape(clean_img, (28, 28, 1))  # Assuming clean_img is grayscale
-    adv = np.repeat(clean, 3, axis=2)  # Convert to RGB by repeating channels
     for x in np.arange(0, 1, 0.125):
-        clean_est = bm3d_rgb(adv, x)
+        clean_est = bm3d_rgb(adv_img, x)
         k = ssim(clean_img, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True)
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
         if k > SSIM and np.argmax(model.predict(clean_est)) == np.argmax(model.predict(c)):
@@ -57,7 +52,10 @@ k = 0
 
 for i in range(10000):
     clean = x_test[i]
+    print(clean)
     adv = pgd(clean, i)
+    print("adv pgd:")
+    print(adv)
     t = extract_parameters(model, clean, adv)
 
     if t:
