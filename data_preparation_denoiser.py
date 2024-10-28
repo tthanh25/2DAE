@@ -34,6 +34,7 @@ def extract_parameters(model, clean_img, adv_img):
     t = []
     #adv = np.array(PIL.Image.open(adv_img)) / 255
     #clean = np.array(PIL.Image.open(clean_img)) / 255
+    print(adv_img)
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv_img, x)
