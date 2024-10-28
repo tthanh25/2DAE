@@ -61,9 +61,13 @@ annealer = LearningRateScheduler(lambda x: 1e-3 * 0.95 ** x)
 history = [0]
 epochs = 64
 
+# Calculate steps_per_epoch
+steps_per_epoch = x_train.shape[0] // 64  # Assuming batch_size is 64
+
+# Train the model
 history = model.fit(datagen.flow(x_train, y_train, batch_size=64),
-         epochs=epochs, steps_per_epoch=x_train.shape[0] // 64,
-         validation_data=(x_test, y_test), callbacks=[annealer], verbose=0)
+                    epochs=epochs, steps_per_epoch=steps_per_epoch,
+                    validation_data=(x_test, y_test), callbacks=[annealer], verbose=1)
 
 j = 0
 print("CNN {0:d}: Epochs={1:d}, Train accuracy={2:.5f}, test accuracy={3:.5f}".format(
