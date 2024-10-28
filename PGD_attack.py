@@ -28,4 +28,4 @@ def pgd(img, i):
         clip_max=1.0
     )
     adv_image = np.reshape(adv_image, (28, 28, 1))
-    return img  # Return the adversarial image
+    return adv_image  # Return the adversarial image
