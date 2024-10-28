@@ -38,14 +38,16 @@ def extract_parameters(model, clean_img, adv_img):
 
     clean = np.array(clean_img) / 255.0  # Normalize clean image
     adv = np.array(adv_img) / 255.0  # Normalize adversarial image
-    adv = np.reshape(adv_img, (28, 28, 1))
     print("adv trong ham extract")
     print(adv)
     # Convert to RGB if images are grayscale
-    if clean.ndim == 2:  # Grayscale
-        clean = np.stack((clean,)*3, axis=-1)  # Convert to RGB
-    if adv.ndim == 2:  # Grayscale
-        adv = np.stack((adv,)*3, axis=-1)  # Convert to RGB
+
+
+    if adv.shape[-1] == 1:
+    adv = np.repeat(adv, 3, axis=-1)
+    if clean.shape[-1] == 1:
+    clean = np.repeat(clean, 3, axis=-1)
+
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv, x)
