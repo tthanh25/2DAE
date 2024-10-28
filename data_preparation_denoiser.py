@@ -24,7 +24,7 @@ def extract_parameters_color(model, clean_img, adv_img):
         for g in np.arange(0, 1, 0.125):
             for b in np.arange(0, 1, 0.125):
                 clean_est = bm3d_rgb(adv, [r, g, b])
-                k = ssim(clean, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True)
+                k = ssim(clean, clean_est,win_size=None, data_range=clean_est.max() - clean_est.min(), multichannel=True)
                 clean_est = np.reshape(clean_est, (1, 32, 32, 3))
                 if k > SSIM and np.argmax(model.predict(clean_est)) == np.argmax(model.predict(c)):
                     SSIM = k
