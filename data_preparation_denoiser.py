@@ -41,9 +41,15 @@ def extract_parameters(model, clean_img, adv_img):
     adv = np.reshape(adv_img, (28, 28, 1))
     print("adv trong ham extract")
     print(adv)
+    # Convert to RGB if images are grayscale
+    if clean.ndim == 2:  # Grayscale
+        clean = np.stack((clean,)*3, axis=-1)  # Convert to RGB
+    if adv.ndim == 2:  # Grayscale
+        adv = np.stack((adv,)*3, axis=-1)  # Convert to RGB
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv, x)
+        clean_est = np.clip(clean_est, 0, 1)  # Ensure values are within [0, 1]
         k = ssim(clean_img, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True)
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
         if k > SSIM and np.argmax(model.predict(clean_est)) == np.argmax(model.predict(c)):
