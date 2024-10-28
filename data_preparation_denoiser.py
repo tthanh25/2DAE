@@ -40,7 +40,7 @@ def extract_parameters(model, clean_img, adv_img):
     adv = np.array(adv_img) / 255.0  # Normalize adversarial image
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
-        clean_est = bm3d_rgb(adv_img, x)
+        clean_est = bm3d_rgb(adv, x)
         k = ssim(clean_img, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True)
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
         if k > SSIM and np.argmax(model.predict(clean_est)) == np.argmax(model.predict(c)):
