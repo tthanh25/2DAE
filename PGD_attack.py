@@ -23,6 +23,7 @@ def pgd(img, i):
         eps=epsilon[i % 7],
         eps_iter=0.01,
         nb_iter=40,
+        norm=np.inf,  # Use np.inf for L-infinity norm
         clip_min=0.0,
         clip_max=1.0
     )
