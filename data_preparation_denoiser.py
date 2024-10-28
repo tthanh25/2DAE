@@ -36,8 +36,8 @@ def extract_parameters(model, clean_img, adv_img):
     SSIM = 0
     t = []
 
-    adv = np.array(PIL.Image.open(adv_img)) / 255
-    clean = np.array(PIL.Image.open(clean_img)) / 255
+    adv = np.narray(PIL.Image.open(adv_img)) / 255
+    clean = np.narray(PIL.Image.open(clean_img)) / 255
     print("adv trong ham extract")
     print(adv)
     # Convert to RGB if images are grayscale
