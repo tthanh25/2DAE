@@ -14,8 +14,8 @@ x_test = np.reshape(x_test, (-1, 28, 28, 1))
 def extract_parameters_color(model, clean_img, adv_img):
     SSIM = 0
     t = []
-    adv = np.array(PIL.Image.open(adv_img)) / 255
-    clean = np.array(PIL.Image.open(clean_img)) / 255
+    #adv = np.array(PIL.Image.open(adv_img)) / 255
+    #clean = np.array(PIL.Image.open(clean_img)) / 255
     c = np.reshape(clean, (1, 32, 32, 3))
     for r in np.arange(0, 1, 0.125):
         for g in np.arange(0, 1, 0.125):
@@ -32,8 +32,8 @@ def extract_parameters_color(model, clean_img, adv_img):
 def extract_parameters(model, clean_img, adv_img):
     SSIM = 0
     t = []
-    adv = np.array(PIL.Image.open(adv_img)) / 255
-    clean = np.array(PIL.Image.open(clean_img)) / 255
+    #adv = np.array(PIL.Image.open(adv_img)) / 255
+    #clean = np.array(PIL.Image.open(clean_img)) / 255
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv_img, x)
