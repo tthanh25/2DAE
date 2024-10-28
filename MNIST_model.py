@@ -3,11 +3,11 @@ import numpy as np
 
 import keras
 from keras.utils import to_categorical
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, BatchNormalization, DepthwiseConv2D, Reshape, Activation
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import LearningRateScheduler
-from keras.optimizers import SGD
+from tensorflow.keras.models import Sequential  # Updated import
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Activation  # Updated import
+from tensorflow.keras.preprocessing.image import ImageDataGenerator  # Updated import
+from tensorflow.keras.callbacks import LearningRateScheduler  # Updated import
+from tensorflow.keras.optimizers import SGD  # Updated import
 
 import tensorflow as tf
 
@@ -45,7 +45,7 @@ model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(256))
 model.add(Activation('relu'))
-model.add(Dense(10, activation='softmax'))  # Corrected line
+model.add(Dense(10, activation='softmax'))
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(optimizer=sgd,
@@ -59,7 +59,7 @@ annealer = LearningRateScheduler(lambda x: 1e-3 * 0.95 ** x)
 history = [0]
 epochs = 64
 
-history = model.fit_generator(datagen.flow(x_train, y_train, batch_size=64),
+history = model.fit(datagen.flow(x_train, y_train, batch_size=64),
          epochs=epochs, steps_per_epoch=x_train.shape[0] // 64,
          validation_data=(x_test, y_test), callbacks=[annealer], verbose=0)
 
