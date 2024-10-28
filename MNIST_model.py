@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 import keras
-from keras.utils.np_utils import to_categorical
+from keras.utils import to_categorical
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, BatchNormalization, DepthwiseConv2D, Reshape, Activation
 from keras.preprocessing.image import ImageDataGenerator
