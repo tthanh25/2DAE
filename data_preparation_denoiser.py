@@ -36,8 +36,8 @@ def extract_parameters(model, clean_img, adv_img):
     SSIM = 0
     t = []
 
-    clean = np.array(clean_img) / 255.0  # Normalize clean image
-    adv = np.array(adv_img) / 255.0  # Normalize adversarial image
+    clean = np.array(clean_img)  # Normalize clean image
+    adv = np.array(adv_img)  # Normalize adversarial image
     print("adv trong ham extract")
     print(adv)
     # Convert to RGB if images are grayscale
@@ -63,7 +63,7 @@ def extract_parameters(model, clean_img, adv_img):
         print("adv số chiều")
         print(adv.shape)
         clean_est = np.clip(clean_est, 0, 1)  # Ensure values are within [0, 1]
-        k = ssim(clean, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True)
+        k = ssim(clean, clean_est,win_size=None, data_range=clean_est.max() - clean_est.min(), multichannel=True)
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
         if k > SSIM and np.argmax(model.predict(clean_est)) == np.argmax(model.predict(c)):
             SSIM = k
