@@ -38,7 +38,7 @@ def extract_parameters(model, clean_img, adv_img):
 
     clean = np.array(clean_img) / 255.0  # Normalize clean image
     adv = np.array(adv_img) / 255.0  # Normalize adversarial image
-    adv = np.reshape(adv_image, (28, 28, 1))
+    adv = np.reshape(adv_img, (28, 28, 1))
     print("adv trong ham extract")
     print(adv)
     c = np.reshape(clean_img, (1, 28, 28, 1))
