@@ -38,6 +38,9 @@ def extract_parameters(model, clean_img, adv_img):
 
     clean = np.array(clean_img) / 255.0  # Normalize clean image
     adv = np.array(adv_img) / 255.0  # Normalize adversarial image
+    adv = np.reshape(adv_image, (28, 28, 1))
+    print("adv trong ham extract")
+    print(adv)
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv, x)
@@ -56,18 +59,19 @@ k = 0
 for i in range(10000):
     clean = x_test[i]
     print(clean)
+    plt.figure(figsize=(12, 6))
+    plt.subplot(1, 3, 2)
+    plt.title('ANH GOCCCCCCCCCCCC')
+    plt.axis('off')
+    plt.imshow(clean)
     adv = pgd(clean, i)
     print("adv pgd:")
-    print(adv)
-    plt.figure(figsize=(12, 6))
+    
     plt.subplot(1, 3, 1)
     plt.title('ANH NHIEUUUUUUUUUUUUUU')
     plt.axis('off')
     plt.imshow(adv)
-    plt.subplot(1, 3, 1)
-    plt.title('ANH GOCCCCCCCCCCCC')
-    plt.axis('off')
-    plt.imshow(clean)
+    
     t = extract_parameters(model, clean, adv)
 
     if t:
