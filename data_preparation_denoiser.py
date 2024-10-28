@@ -51,6 +51,17 @@ def extract_parameters(model, clean_img, adv_img):
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv, x)
+        print("clean_est số chiều")
+        print(clean_est.dim)
+        
+        print("clean_img số chiều")
+        print(clean_img.dim)
+
+        print("clean số chiều")
+        print(clean.dim)
+
+        print("adv số chiều")
+        print(adv.dim)
         clean_est = np.clip(clean_est, 0, 1)  # Ensure values are within [0, 1]
         k = ssim(clean_img, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True)
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
