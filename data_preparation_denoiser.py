@@ -6,6 +6,9 @@ from bm3d import bm3d_rgb
 from skimage.metrics import structural_similarity as ssim
 from PGD_attack import pgd
 
+import matplotlib.pyplot as plt
+from PIL import Image
+
 mnist = tf.keras.datasets.mnist
 (_, _), (x_test, _) = mnist.load_data()
 x_test = np.reshape(x_test, (-1, 28, 28, 1))
