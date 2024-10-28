@@ -44,9 +44,9 @@ def extract_parameters(model, clean_img, adv_img):
 
 
     if adv.shape[-1] == 1:
-    adv = np.repeat(adv, 3, axis=-1)
+        adv = np.repeat(adv, 3, axis=-1)
     if clean.shape[-1] == 1:
-    clean = np.repeat(clean, 3, axis=-1)
+        clean = np.repeat(clean, 3, axis=-1)
 
     c = np.reshape(clean_img, (1, 28, 28, 1))
     for x in np.arange(0, 1, 0.125):
