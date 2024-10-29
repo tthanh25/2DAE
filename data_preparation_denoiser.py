@@ -49,7 +49,7 @@ def extract_parameters(model, clean_img, adv_img):
     if clean.shape[-1] == 1:
         clean = np.repeat(clean, 3, axis=-1)
 
-    c = np.reshape(clean_img, (1, 28, 28, 3))
+    c = np.reshape(clean_img, (1, 28, 28, 1))
     
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv, x)
@@ -68,8 +68,8 @@ def extract_parameters(model, clean_img, adv_img):
                 
         k = ssim(clean, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True, win_size=3)
 
-        clean_est = np.reshape(clean_est, (1, 28, 28, 3))
-        if k > SSIM and np.argmax(model.predict(clean_est)) == np.argmax(model.predict(c)):
+        clean_est = np.reshape(clean_est, (1, 28, 28, 1))
+        if k > SSIM and np.argmax(model.predict(clean_est)) >= np.argmax(model.predict(c)):
             SSIM = k
             t = [x]
     
@@ -87,7 +87,7 @@ for i in range(10):
     t = extract_parameters(model, clean, adv)
     print(t)
     print(adv)
-    adv_reshaped = np.reshape(adv, (1, 28, 28, 3))  # Reshape adv for prediction
+    adv_reshaped = np.reshape(adv, (1, 28, 28, 1))  # Reshape adv for prediction
     print(model.predict(adv_reshaped))  # Predict with reshaped adv
     if t:
         t = np.hstack((i, t))
