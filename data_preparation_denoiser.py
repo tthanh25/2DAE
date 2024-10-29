@@ -95,7 +95,6 @@ for i in range(10):
     # Calculate and print accuracy
     true_class = np.argmax(model.predict(np.reshape(clean, (1, 28, 28, 1))))  # True class from clean image
     accuracy = (predicted_class == true_class).astype(float)  # Calculate accuracy for this prediction
-    accuracies.append(accuracy)
     print(f"True class: {true_class}, Accuracy: {accuracy}")
     if t:
         t = np.hstack((i, t))
