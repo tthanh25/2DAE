@@ -65,13 +65,11 @@ def extract_parameters(model, clean_img, adv_img):
         if clean.shape[0] < 7 or clean.shape[1] < 7 or clean_est.shape[0] < 7 or clean_est.shape[1] < 7:
             print("Một trong các ảnh quá nhỏ!")
             continue
-        
-        clean_est = np.clip(clean_est, 0, 1)  # Ensure values are within [0, 1]
-        
+                
         k = ssim(clean, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True, win_size=3)
 
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
-        if k > SSIM and np.argmax(model.predict(clean_est)) == np.argmax(model.predict(c)):
+        if k > SSIM and np.argmax(model.predict(clean_est)) >= np.argmax(model.predict(c)):
             SSIM = k
             t = [x]
     
@@ -88,6 +86,7 @@ for i in range(10):
     adv = pgd(clean, i)    
     t = extract_parameters(model, clean, adv)
     print(t)
+    print(model.predict(adv))
     if t:
         t = np.hstack((i, t))
         if c:
