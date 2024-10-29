@@ -87,7 +87,7 @@ for i in range(10):
     clean = x_test[i]
     adv = pgd(clean, i)    
     t = extract_parameters(model, clean, adv)
-
+    print(t)
     if t:
         t = np.hstack((i, t))
         if c:
