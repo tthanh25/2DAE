@@ -88,7 +88,15 @@ for i in range(10):
     print(t)
     print(adv)
     adv_reshaped = np.reshape(adv, (1, 28, 28, 1))  # Reshape adv for prediction
-    print(model.predict(adv_reshaped))  # Predict with reshaped adv
+    prediction = model.predict(adv_reshaped)
+    predicted_class = np.argmax(prediction)
+    print(f"Prediction for adversarial image {i}: {predicted_class} with probabilities {prediction}")
+
+    # Calculate and print accuracy
+    true_class = np.argmax(model.predict(np.reshape(clean, (1, 28, 28, 3))))  # True class from clean image
+    accuracy = (predicted_class == true_class).astype(float)  # Calculate accuracy for this prediction
+    accuracies.append(accuracy)
+    print(f"True class: {true_class}, Accuracy: {accuracy}")
     if t:
         t = np.hstack((i, t))
         if c:
