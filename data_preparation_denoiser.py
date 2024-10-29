@@ -93,7 +93,7 @@ for i in range(10):
     print(f"Prediction for adversarial image {i}: {predicted_class} with probabilities {prediction}")
 
     # Calculate and print accuracy
-    true_class = np.argmax(model.predict(np.reshape(clean, (1, 28, 28, 3))))  # True class from clean image
+    true_class = np.argmax(model.predict(np.reshape(clean, (1, 28, 28, 1))))  # True class from clean image
     accuracy = (predicted_class == true_class).astype(float)  # Calculate accuracy for this prediction
     accuracies.append(accuracy)
     print(f"True class: {true_class}, Accuracy: {accuracy}")
