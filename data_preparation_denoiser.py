@@ -40,8 +40,8 @@ def extract_parameters(model, clean_img, adv_img):
     adv = adv_img / 255.0
     clean = clean_img / 255.0
 
-    print("adv trong ham extract")
-    print(adv)
+    #print("adv trong ham extract")
+    #print(adv)
 
     # Convert to RGB if images are grayscale
     if adv.shape[-1] == 1:
@@ -59,7 +59,7 @@ def extract_parameters(model, clean_img, adv_img):
             print("clean_est contains NaN or inf values")
             continue
         
-        print("clean_est số chiều:", clean_est.shape)
+        #print("clean_est số chiều:", clean_est.shape)
         
         # Kiểm tra kích thước
         if clean.shape[0] < 7 or clean.shape[1] < 7 or clean_est.shape[0] < 7 or clean_est.shape[1] < 7:
@@ -84,20 +84,7 @@ k = 0
 
 for i in range(10000):
     clean = x_test[i]
-    print(clean)
-    plt.figure(figsize=(12, 6))
-    plt.subplot(1, 3, 2)
-    plt.title('ANH GOCCCCCCCCCCCC')
-    plt.axis('off')
-    plt.imshow(clean)
-    adv = pgd(clean, i)
-    print("adv pgd:")
-    
-    plt.subplot(1, 3, 1)
-    plt.title('ANH NHIEUUUUUUUUUUUUUU')
-    plt.axis('off')
-    plt.imshow(adv)
-    
+    adv = pgd(clean, i)    
     t = extract_parameters(model, clean, adv)
 
     if t:
