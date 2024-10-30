@@ -30,4 +30,4 @@ for i in range(100):
     v = np.vstack((v, t))
 
 print(np.shape(v))
-np.savez_compressed('data_training', X=v[:, 1:], Y=v[:, 0:1])
+np.savez_compressed('data_training', X=v[:, 1:], Y=v[:, 0])
