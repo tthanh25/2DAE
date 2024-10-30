@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import SVC
 from joblib import dump, load
+import tensorflow as tf
 
 
 # Load MNIST dataset
