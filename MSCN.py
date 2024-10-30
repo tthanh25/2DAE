@@ -43,7 +43,7 @@ def calculate_mscn_coefficients(img, kernel_size, sigma):
     local_mean = signal.convolve2d(img, kernel, 'same')
     local_var = local_deviation(img, local_mean, kernel)
     a = (img - local_mean) / (local_var + C)
-    return np.reshape(a, (-1,))
+    return a
 
 def mscn_histogram(x, bins):
     n, _ = np.histogram(x.ravel(), bins=(bins-1), range=(-2.0, 2.0))
