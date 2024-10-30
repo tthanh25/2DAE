@@ -13,7 +13,7 @@ mnist = tf.keras.datasets.mnist
 x_test = np.reshape(x_test, (-1, 28, 28, 1))
 
 # Prepare the feature matrix
-for i in range(100):
+for i in range(1000):
     img = x_test[i]
     img = pgd(img, i)
     parameters = calculate_brisque_features(img, kernel_size=7, sigma=7/6)
