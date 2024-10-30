@@ -6,6 +6,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import SVC
 from joblib import dump, load
 import tensorflow as tf
+from MSCN import calculate_brisque_features
 
 
 # Load MNIST dataset
