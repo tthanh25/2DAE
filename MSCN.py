@@ -30,7 +30,14 @@ def calculate_mscn_coefficients(img, kernel_size, sigma):
     C = 1 / 255
 
     img = (np.asarray(img) / 255.0).astype(np.float32)
-    img = skimage.color.rgb2gray(img)
+
+    # Check the number of channels
+    if img.shape[-1] == 1:  # If image has only one channel
+        img = img.squeeze(-1)  # Remove the last dimension
+
+    # Convert to grayscale only if the image has 3 channels
+    if img.ndim == 3 and img.shape[-1] == 3:
+        img = color.rgb2gray(img)
 
     kernel = gaussian_kernel2d(kernel_size, sigma=sigma)
     local_mean = signal.convolve2d(img, kernel, 'same')
