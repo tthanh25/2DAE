@@ -18,6 +18,7 @@ for i in range(1000):
     img = pgd(img, i)
     parameters = calculate_brisque_features(img, kernel_size=7, sigma=7/6)
     t = np.hstack((1, parameters))  # Label for adversarial image
+    print(t)
     if i == 0:
         v = t
     else:
