@@ -29,7 +29,7 @@ svclassifiertraining = load('svm_sigmoid_training.joblib')
 img = x_test[5]
 test = calculate_brisque_features(img, kernel_size=7, sigma=7/6)
 print(test)
-t = np.hstack((0, parameters))  # Label for clean image
+t = np.hstack((0, test))  # Label for clean image
 v = np.vstack((v, t))
 X_test=v[:, 1:]
 Y_test=v[:, 0]
