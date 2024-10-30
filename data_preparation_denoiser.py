@@ -66,8 +66,8 @@ def extract_parameters(model, clean_img, adv_img):
             print("Một trong các ảnh quá nhỏ!")
             continue
                 
-        k = ssim(clean, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True, win_size=3)
-
+        k = ssim(clean, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True, win_size=5)
+        print("k: ",k)
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
         if k > SSIM and np.argmax(model.predict(clean_est)) >= np.argmax(model.predict(c)):
             SSIM = k
@@ -97,6 +97,7 @@ for i in range(10):
     accuracy = (predicted_class == true_class).astype(float)  # Calculate accuracy for this prediction
     print(f"True class: {true_class}, Accuracy: {accuracy}")
     if t:
+        np.reshape(t,(1))
         t = np.hstack((i, t))
         if c:
             v = t
@@ -104,7 +105,7 @@ for i in range(10):
         else:
             v = np.vstack((v, t))
     
-    if i % 50 == 0 and not c:
+    if i % 50 == 0:
         np.savez_compressed('data_prepare' + str(k), X=v[:, :1], Y=v[:, 1:])
         print(np.shape(v))
         k += 1
