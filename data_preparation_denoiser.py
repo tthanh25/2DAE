@@ -40,19 +40,12 @@ def extract_parameters(model, clean_img, adv_img):
     adv = adv_img / 255.0
     clean = clean_img / 255.0
 
-    #print("adv trong ham extract")
-    #print(adv)
-
     # Convert to RGB if images are grayscale
-    if adv.shape[-1] == 1:
-        adv = np.repeat(adv, 3, axis=-1)
-    if clean.shape[-1] == 1:
-        clean = np.repeat(clean, 3, axis=-1)
 
     c = np.reshape(clean_img, (1, 28, 28, 1))
     
     for x in np.arange(0, 1, 0.125):
-        clean_est = bm3d_rgb(adv, x)
+        clean_est = bm3d(adv, x)
         print(clean_est)
         # Kiểm tra giá trị
         #if np.any(np.isnan(clean_est)) or np.any(np.isinf(clean_est)):
