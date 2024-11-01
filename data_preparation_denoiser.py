@@ -2,7 +2,7 @@ import numpy as np
 import PIL
 from keras.models import load_model
 import tensorflow as tf
-from bm3d import bm3d_rgb
+from bm3d import bm3d
 from skimage.metrics import structural_similarity as ssim
 from PGD_attack import pgd
 
@@ -47,25 +47,20 @@ def extract_parameters(model, clean_img, adv_img):
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d(adv, x)
         print(clean_est)
-        # Kiểm tra giá trị
-        #if np.any(np.isnan(clean_est)) or np.any(np.isinf(clean_est)):
-        #    print("clean_est contains NaN or inf values")
-        #    continue
-        
+
+        clean_reshaped = clean.squeeze()
         print("clean_est số chiều:", clean_est.shape)
         print("clean số chiều:", clean.shape)
         print("adv số chiều:", adv.shape)
-        # Kiểm tra kích thước
-        if clean.shape[0] < 7 or clean.shape[1] < 7 or clean_est.shape[0] < 7 or clean_est.shape[1] < 7:
-            print("Một trong các ảnh quá nhỏ!")
-            continue
-                
-        k = ssim(clean, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True, win_size=5)
+        k = ssim(clean_reshaped, clean_est, data_range=clean_est.max() - clean_est.min(), multichannel=True)
         print("k: ",k)
         clean_est = np.reshape(clean_est, (1, 28, 28, 1))
-        if k > SSIM and np.argmax(model.predict(clean_est)) >= np.argmax(model.predict(c)):
-            SSIM = k
-            t = [x]
+        if(k>SSIM):
+         print(np.argmax(model.predict(clean_est)),np.argmax(model.predict(c)))
+         if(np.argmax(model.predict(clean_est))==np.argmax(model.predict(c))):
+          #print(r,g,b)
+          SSIM=k
+          t=[x]
     
     return t
 
@@ -100,5 +95,7 @@ for i in range(10):
             v = np.vstack((v, t))
     
     if i % 50 == 0:
+        if v.ndim == 1:
+            v = v.reshape(-1, 1) 
         np.savez_compressed('data_prepare' + str(k), X=v[:, :1], Y=v[:, 1:])
         print(np.shape(v))
