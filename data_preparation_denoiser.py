@@ -59,8 +59,8 @@ def extract_parameters(model, clean_img, adv_img):
             print("clean_est contains NaN or inf values")
             continue
         
-        #print("clean_est số chiều:", clean_est.shape)
-        
+        print("clean_est số chiều:", clean_est.shape)
+        print("clean số chiều:", clean.shape)
         # Kiểm tra kích thước
         if clean.shape[0] < 7 or clean.shape[1] < 7 or clean_est.shape[0] < 7 or clean_est.shape[1] < 7:
             print("Một trong các ảnh quá nhỏ!")
@@ -108,4 +108,3 @@ for i in range(10):
     if i % 50 == 0:
         np.savez_compressed('data_prepare' + str(k), X=v[:, :1], Y=v[:, 1:])
         print(np.shape(v))
-        k += 1

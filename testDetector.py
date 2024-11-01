@@ -2,12 +2,13 @@ from MSCN import calculate_brisque_features
 import tensorflow as tf
 from joblib import dump, load
 from PGD_attack import pgd
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 
 # Load MNIST dataset
 mnist = tf.keras.datasets.mnist
-(_, _), (x_test, _) = mnist.load_data()
+(_, _), (x_test, y_test) = mnist.load_data()
 
 
 
