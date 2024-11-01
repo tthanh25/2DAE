@@ -53,14 +53,15 @@ def extract_parameters(model, clean_img, adv_img):
     
     for x in np.arange(0, 1, 0.125):
         clean_est = bm3d_rgb(adv, x)
-        
+        print(clean_est)
         # Kiểm tra giá trị
-        if np.any(np.isnan(clean_est)) or np.any(np.isinf(clean_est)):
-            print("clean_est contains NaN or inf values")
-            continue
+        #if np.any(np.isnan(clean_est)) or np.any(np.isinf(clean_est)):
+        #    print("clean_est contains NaN or inf values")
+        #    continue
         
         print("clean_est số chiều:", clean_est.shape)
         print("clean số chiều:", clean.shape)
+        print("adv số chiều:", adv.shape)
         # Kiểm tra kích thước
         if clean.shape[0] < 7 or clean.shape[1] < 7 or clean_est.shape[0] < 7 or clean_est.shape[1] < 7:
             print("Một trong các ảnh quá nhỏ!")
@@ -86,7 +87,7 @@ for i in range(10):
     adv = pgd(clean, i)    
     t = extract_parameters(model, clean, adv)
     print(t)
-    print(adv)
+    #print(adv)
     adv_reshaped = np.reshape(adv, (1, 28, 28, 1))  # Reshape adv for prediction
     prediction = model.predict(adv_reshaped)
     predicted_class = np.argmax(prediction)
