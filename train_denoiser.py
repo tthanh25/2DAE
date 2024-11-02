@@ -34,7 +34,8 @@ for i in range(len(npzfile['X'])):
 
 x = t
 y = npzfile['Y']
-
+print("x: ", x)
+print("y: ", y)
 # Build the model
 model = Sequential()
 model.add(Conv2D(16, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(28, 28, 1)))
@@ -45,7 +46,7 @@ model.add(Conv2D(1, (3, 3), activation='relu', kernel_initializer='he_uniform', 
 model.add(GlobalMaxPooling2D())
 
 # Compile model
-opt = SGD(lr=0.01, momentum=0.9)
+opt = SGD(learning_rate=0.01, momentum=0.9)
 model.compile(optimizer=opt, loss='mean_squared_error', metrics=['accuracy'])
 
 # Fit the model
