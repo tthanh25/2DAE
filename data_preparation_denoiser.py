@@ -56,7 +56,7 @@ model = load_model('train.h5')
 v = []  # Initialize v as a list for indices
 t_values = []  # List to hold the extracted parameters
 
-for i in range(100):
+for i in range(10000):
     clean = x_test[i]
     adv = pgd(clean, i)    
     t = extract_parameters(model, clean, adv)
