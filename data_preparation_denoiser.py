@@ -53,8 +53,9 @@ def extract_parameters(model, clean_img, adv_img):
 
 
 model = load_model('train.h5')
-v = []  # Initialize v as a list for indices
-t_values = []  # List to hold the extracted parameters
+# Initialize lists for data collection
+v = []
+t_values = []
 
 for i in range(10000):
     clean = x_test[i]
@@ -69,14 +70,15 @@ for i in range(10000):
     accuracy = (predicted_class == true_class).astype(float)
     print(f"Prediction for adversarial image {i}: {predicted_class} with probabilities {prediction}")
     print(f"True class: {true_class}, Accuracy: {accuracy}")
+    
     if t is not None:  # Ensure t is a valid value
         v.append(i)  # Collect index
         t_values.append(t)  # Collect the corresponding t value
 
-# Convert lists to NumPy arrays for saving
-v = np.array(v)
-t_values = np.array(t_values)
-print(v)
-print(t_values)
-# Save the data in the desired format
-np.savez_compressed('data_prepare', X=v, Y=t_values)
+    # Save every 50 iterations into the same file
+    if i % 50 == 0:
+        np.savez_compressed('data_prepare', X=np.array(v), Y=np.array(t_values))
+        print(f"Saved data at iteration {i}: {np.shape(v)}, {np.shape(t_values)}")
+
+# Final save after loop completion
+np.savez_compressed('data_prepare_final', X=np.array(v), Y=np.array(t_values))
