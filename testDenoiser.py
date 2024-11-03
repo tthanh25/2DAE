@@ -16,25 +16,27 @@ def test_model(model_path, second_model_path):
     x_test = np.reshape(x_test, (-1, 28, 28, 1))  # Reshape to (num_samples, 28, 28, 1)
     y_test = to_categorical(y_test, num_classes=10)  # One-hot encode the labels
 
-    # Initialize for the first 10 images with noise
-    noisy_images = np.zeros((10, 28, 28))  
-    for i in range(10):  # Process only the first 10 images
-        noisy_images[i] = pgd(x_test[i].squeeze(), i).squeeze()  # Apply PGD attack and remove the last dimension
+    # Initialize for the first 20 images
+    noisy_images = np.zeros((20, 28, 28))
+    
+    for i in range(20):  # Process the first 20 images
+        noisy_images[i] = pgd(x_test[i].squeeze(), i).squeeze()  # Apply PGD attack
 
-    # Normalize noisy images
     noisy_images = noisy_images / 255.0
 
     # Make predictions with the first model on noisy images
     predictions = model.predict(noisy_images[..., np.newaxis])  # Add channel dimension
-    print("predictions: ", predictions)
+    print("Predictions on Noisy Images: ", predictions)
 
-    # Get the noise level (sigma) from the predictions (assuming predictions are probabilities)
-    sigma = np.std(predictions, axis=1)  # Example: using the std deviation as noise level
-
-    # Denoise images using BM3D for the first 10 images
-    denoised_images = np.zeros((10, 28, 28))  # Initialize for denoised images
-    for i in range(10):  # Process only the first 10 images
-        denoised_images[i] = bm3d(noisy_images[i].squeeze(), sigma[i])  # Apply BM3D
+    # Use the maximum predicted probability as sigma for denoising
+    sigma = np.max(predictions, axis=1)  # Get the maximum probability for each prediction
+    print("Sigma values for denoising: ", sigma)
+    noisy_images = noisy_images * 255
+    # Denoise images using BM3D for the first 20 images
+    denoised_images = np.zeros((20, 28, 28))  # Initialize for denoised images
+    for i in range(20):  # Process the first 20 images
+        #print("sigma", i, ":", sigma[i])
+        denoised_images[i] = bm3d(noisy_images[i], sigma[i])  # Apply BM3D
 
     # Load the second model
     second_model = load_model(second_model_path)
@@ -42,15 +44,15 @@ def test_model(model_path, second_model_path):
     # Make predictions on the denoised images
     denoised_predictions = second_model.predict(denoised_images[..., np.newaxis])  # Add channel dimension
     predicted_classes = np.argmax(denoised_predictions, axis=1)  # Get the class with the highest probability
-    true_classes = np.argmax(y_test[:10], axis=1)  # Get the true class labels for the first 10 images
+    true_classes = np.argmax(y_test[:20], axis=1)  # Get the true class labels for the first 20 images
 
-    # Print some predictions from the denoised images
+    # Print predictions from the denoised images
     print("\nSample Predictions from Denoised Images:")
-    for i in range(10):  # Display the first 10 predictions
+    for i in range(20):  # Display the first 20 predictions
         print(f"True Label: {true_classes[i]}, Predicted: {predicted_classes[i]}")
 
     # Visualization of original, noisy, and denoised images
-    plt.figure(figsize=(15, 5))
+    plt.figure(figsize=(15, 7))
     for i in range(10):
         plt.subplot(3, 10, i + 1)
         plt.imshow(x_test[i].squeeze(), cmap='gray')
