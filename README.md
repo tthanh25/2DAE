@@ -13,7 +13,7 @@ CleverHans version: 4.0.0​
 bm3d version: 4.0.3
 
 Trong quá trình cài đặt thư viện nếu báo lỗi thiếu thì các bạn import thêm nhé
-## thứ tự chạy file: 
+## Thứ tự chạy file: 
   1. MNIST_model.py
   2. data_preparation_denoiser.py và data_preparation_detector.py
   3. train_detector.py và train_denoiser.py
